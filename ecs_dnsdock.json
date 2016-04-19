@@ -1,0 +1,24 @@
+{
+  "description": "ElasticBeanstalk ECS imagine modification for dnsdock support",
+  
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "{{user `aws_region`}}",
+      "access_key": "{{user `aws_access_key_id`}}",
+      "secret_key": "{{user `aws_secret_access_key`}}",
+      "source_ami": "{{user `source_ami`}}",
+      "instance_type": "t2.small",
+      "ssh_username": "ec2-user",
+      "ami_name": "aws-elasticbeanstalk-amzn-2016.03.0.x86_64-ecs-dnsdock-hvm-201603311132"
+    }
+  ],
+  
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "ecs_dnsdock.sh",
+      "execute_command": "{{ .Vars }} sudo -E /bin/bash {{ .Path }}"
+    }
+  ]
+}
